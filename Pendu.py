@@ -1,3 +1,5 @@
+from random import randint
+
 def demander_lettre():
     lettre_valid = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j","k","l","m","n","o","p","q","r","s","t","u","v","w","x", "y", "z"]
     lettre = input("Entrez une lettre : ")
@@ -20,7 +22,11 @@ def remplace(reference, actuel, lettre):
         return actuel
 
 def init():
-    reference = "test"
+    with open("mot.txt", "r") as f:
+        reference = f.read()
+        reference = reference.split()
+    reference = reference[randint(0, len(reference))]
+    print(reference)
     actuel = ""
     essais = int(input("Entrez le nombre d'essais : "))
     for i in range(len(reference)):
@@ -29,8 +35,8 @@ def init():
 
 def main(reference, actuel, essais):
     while essais > 0:
-        print("Il vous reste {} essais".format(essais))
-        print("Actuellement vous avez trouvé : {}".format(actuel))
+        print("\033[0;94mIl vous reste {} essais\033[0m".format(essais))
+        print("\033[0;94mActuellement vous avez trouvé : {}\033[0m".format(actuel))
         lettre = demander_lettre()
         oldActuel = actuel
         actuel = remplace(reference, actuel, lettre)
@@ -43,9 +49,9 @@ def main(reference, actuel, essais):
             oldActuel = actuel
             
         if "_" not in actuel:
-            print("Vous avez gagné, le mot était {}".format(reference))
+            print("\033[0;92mVous avez gagné, le mot était {}\033[0m".format(reference))
             break
         if essais == 0:
-            print("Vous avez perdu, le mot était {}".format(reference))
+            print("\033[0;91mVous avez perdu, le mot était {}\033[0m".format(reference))
             break
 init()
